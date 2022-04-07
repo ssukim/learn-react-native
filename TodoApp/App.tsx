@@ -1,20 +1,36 @@
-import React from 'react';
+import React, {useState} from 'react';
 import DateHead from './components/DateHead';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import AddTodo from './components/AddTodo';
 import Empty from './components/Empty';
-import {StyleSheet} from 'react-native';
+import {KeyboardAvoidingView, StyleSheet, Platform} from 'react-native';
+import TodoList, {TodoListProps} from './components/TodoList';
 
 const App = () => {
   const today = new Date();
-  console.log(today);
+
+  const [locTodos, setTodos] = useState<TodoListProps>({
+    todos: [
+      {id: 1, text: '작업환경 설정', done: true},
+      {id: 2, text: '리액트 네이티브 기초 공부', done: false},
+      {id: 3, text: '투두리스트 만들어보기', done: false},
+    ],
+  });
 
   return (
     <SafeAreaProvider>
       <SafeAreaView edges={['bottom']} style={styles.block}>
-        <DateHead date={today} />
-        <Empty />
-        <AddTodo />
+        <KeyboardAvoidingView
+          behavior={Platform.select({ios: 'padding', android: undefined})}
+          style={styles.avoid}>
+          <DateHead date={today} />
+          {locTodos?.todos.length === 0 ? (
+            <Empty />
+          ) : (
+            <TodoList todos={locTodos.todos} />
+          )}
+          <AddTodo />
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -22,6 +38,10 @@ const App = () => {
 
 const styles = StyleSheet.create({
   block: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  avoid: {
     flex: 1,
   },
 });
