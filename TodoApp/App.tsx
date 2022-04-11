@@ -17,6 +17,40 @@ const App = () => {
     ],
   });
 
+  const onInsert = (text: string) => {
+    const nextId =
+      locTodos.todos.length > 0
+        ? Math.max(...locTodos.todos.map(item => item.id)) + 1
+        : 1;
+
+    const todo = {
+      id: nextId,
+      text,
+      done: false,
+    };
+
+    const todos = locTodos.todos.concat(todo);
+    setTodos({
+      todos,
+    });
+  };
+
+  const onToggle = (id: number) => {
+    const nextTodos = locTodos.todos.map(todo =>
+      todo.id === id ? {...todo, done: !todo.done} : todo,
+    );
+    setTodos({
+      todos: nextTodos,
+    });
+  };
+
+  const onRemove = (id: number) => {
+    const nextTodos = locTodos.todos.filter(todo => todo.id != id);
+    setTodos({
+      todos: nextTodos,
+    });
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView edges={['bottom']} style={styles.block}>
@@ -27,9 +61,13 @@ const App = () => {
           {locTodos?.todos.length === 0 ? (
             <Empty />
           ) : (
-            <TodoList todos={locTodos.todos} />
+            <TodoList
+              todos={locTodos.todos}
+              onToggle={id => onToggle(id)}
+              onRemove={id => onRemove(id)}
+            />
           )}
-          <AddTodo />
+          <AddTodo onInsert={text => onInsert(text)} />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </SafeAreaProvider>
