@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import DateHead from './components/DateHead';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import AddTodo from './components/AddTodo';
 import Empty from './components/Empty';
 import {KeyboardAvoidingView, StyleSheet, Platform} from 'react-native';
 import TodoList, {TodoListProps} from './components/TodoList';
+import todosStorage from './storages/todosStorage';
 
 const App = () => {
   const today = new Date();
@@ -45,11 +46,21 @@ const App = () => {
   };
 
   const onRemove = (id: number) => {
-    const nextTodos = locTodos.todos.filter(todo => todo.id != id);
+    const nextTodos = locTodos.todos.filter(todo => todo.id !== id);
     setTodos({
       todos: nextTodos,
     });
   };
+
+  // // 불러오기
+  useEffect(() => {
+    todosStorage.get().then(setTodos).catch(console.error);
+  }, []);
+
+  // 저장하기
+  useEffect(() => {
+    todosStorage.set(locTodos).catch(console.error);
+  }, [locTodos]);
 
   return (
     <SafeAreaProvider>
