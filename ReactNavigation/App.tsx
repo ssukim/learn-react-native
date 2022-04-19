@@ -2,21 +2,33 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeScreen from './screens/stack/HomeScreen';
+import TabHomeScreen from './screens/tab/HomeScreen';
+import MessageScreen from './screens/tab/MessageScreen';
+import NotificationScreen from './screens/tab/NotificationScreen';
+import SearchScreen from './screens/tab/SearchScreen';
 import DrawerHomeScreen from './screens/drawer/HomeScreen';
 import DetailScreen from './screens/stack/DetailScreen';
 import HeaderlessScreen from './screens/stack/HeaderlessScreen';
-import {RootDrawerParamList, RootStackParamList} from './screens/RootStack';
+import {
+  RootDrawerParamList,
+  RootStackParamList,
+  RootTabParamList,
+} from './screens/RootStack';
 import {Button, Text, TouchableOpacity, View} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import SettingScreen from './screens/drawer/SettingScreen';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootDrawerParamList>();
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 function App() {
   return (
     <NavigationContainer>
+      {/* StackNavigator Start */}
       {/* <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           name="Home"
@@ -64,7 +76,10 @@ function App() {
           options={{headerShown: false}}
         />
       </Stack.Navigator> */}
-      <Drawer.Navigator
+      {/* StackNavigator End */}
+
+      {/* DrawerNavigator Start */}
+      {/* <Drawer.Navigator
         initialRouteName="Home"
         backBehavior="history"
         drawerContent={({navigation}) => (
@@ -91,7 +106,59 @@ function App() {
           component={SettingScreen}
           options={{title: '설정'}}
         />
-      </Drawer.Navigator>
+      </Drawer.Navigator> */}
+      {/* DrawerNavigator End */}
+
+      {/* TabNavigator Start */}
+      <Tab.Navigator
+        initialRouteName="Home"
+        screenOptions={() => ({
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
+          tabBarShowLabel: false,
+        })}>
+        <Tab.Screen
+          name="Home"
+          component={TabHomeScreen}
+          options={{
+            title: '홈',
+            tabBarIcon: ({color, size}) => (
+              <Icon name="home" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Search"
+          component={SettingScreen}
+          options={{
+            title: '검색',
+            tabBarIcon: ({color, size}) => (
+              <Icon name="search" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Notification"
+          component={NotificationScreen}
+          options={{
+            title: '알림',
+            tabBarIcon: ({color, size}) => (
+              <Icon name="notifications" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Message"
+          component={MessageScreen}
+          options={{
+            title: '메시지',
+            tabBarIcon: ({color, size}) => (
+              <Icon name="message" color={color} size={size} />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+      {/* TabNavigator End */}
     </NavigationContainer>
   );
 }
