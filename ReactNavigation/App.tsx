@@ -20,6 +20,7 @@ import SettingScreen from './screens/drawer/SettingScreen';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import MainScreen from './screens/tab/MainScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootDrawerParamList>();
@@ -110,7 +111,7 @@ function App() {
       {/* DrawerNavigator End */}
 
       {/* TabNavigator Start */}
-      <Tab.Navigator
+      {/* <Tab.Navigator
         initialRouteName="Home"
         screenOptions={() => ({
           tabBarActiveTintColor: 'tomato',
@@ -129,7 +130,7 @@ function App() {
         />
         <Tab.Screen
           name="Search"
-          component={SettingScreen}
+          component={SearchScreen}
           options={{
             title: '검색',
             tabBarIcon: ({color, size}) => (
@@ -157,8 +158,18 @@ function App() {
             ),
           }}
         />
-      </Tab.Navigator>
+      </Tab.Navigator> */}
       {/* TabNavigator End */}
+      {/* StackNavigator With TabNavigator Start */}
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Main"
+          component={MainScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen name="Detail" component={DetailScreen} />
+      </Stack.Navigator>
+      {/* StackNavigator With TabNavigator End */}
     </NavigationContainer>
   );
 }

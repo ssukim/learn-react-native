@@ -2,6 +2,7 @@ export type RootStackParamList = {
   Home: undefined;
   HeaderlessScreen: undefined;
   Detail: {id: number};
+  Main: {id: number};
 };
 
 export type RootDrawerParamList = {
@@ -10,8 +11,9 @@ export type RootDrawerParamList = {
 };
 
 export type RootTabParamList = {
-  Home: undefined;
+  Home: {id: number};
   Message: undefined;
   Notification: undefined;
   Search: undefined;
+  Detail: {id: number};
 };
