@@ -3,3 +3,8 @@ export type RootStackParamList = {
   HeaderlessScreen: undefined;
   Detail: {id: number};
 };
+
+export type RootDrawerParamList = {
+  Home: undefined;
+  Setting: undefined;
+};

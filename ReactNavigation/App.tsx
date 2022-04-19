@@ -1,18 +1,23 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import HomeScreen from './screens/HomeScreen';
-import DetailScreen from './screens/DetailScreen';
-import HeaderlessScreen from './screens/HeaderlessScreen';
-import {RootStackParamList} from './screens/RootStack';
-import {Text, TouchableOpacity, View} from 'react-native';
+import HomeScreen from './screens/stack/HomeScreen';
+import DrawerHomeScreen from './screens/drawer/HomeScreen';
+import DetailScreen from './screens/stack/DetailScreen';
+import HeaderlessScreen from './screens/stack/HeaderlessScreen';
+import {RootDrawerParamList, RootStackParamList} from './screens/RootStack';
+import {Button, Text, TouchableOpacity, View} from 'react-native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import SettingScreen from './screens/drawer/SettingScreen';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const Drawer = createDrawerNavigator<RootDrawerParamList>();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      {/* <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           name="Home"
           component={HomeScreen}
@@ -58,7 +63,35 @@ function App() {
           component={HeaderlessScreen}
           options={{headerShown: false}}
         />
-      </Stack.Navigator>
+      </Stack.Navigator> */}
+      <Drawer.Navigator
+        initialRouteName="Home"
+        backBehavior="history"
+        drawerContent={({navigation}) => (
+          <SafeAreaView>
+            <Text>A Custom Drawer</Text>
+            <Button
+              onPress={() => navigation.closeDrawer()}
+              title="Drawer 닫기"
+            />
+          </SafeAreaView>
+        )}
+        screenOptions={{
+          drawerPosition: 'left',
+          drawerActiveBackgroundColor: '#fb8c00',
+          drawerActiveTintColor: 'white',
+        }}>
+        <Drawer.Screen
+          name="Home"
+          component={DrawerHomeScreen}
+          options={{title: '홈', headerLeft: () => <Text>Left</Text>}}
+        />
+        <Drawer.Screen
+          name="Setting"
+          component={SettingScreen}
+          options={{title: '설정'}}
+        />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 }

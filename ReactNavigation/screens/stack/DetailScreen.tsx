@@ -1,7 +1,7 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useEffect} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
-import {RootStackParamList} from './RootStack';
+import {RootStackParamList} from '../RootStack';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Detail'>;
 
