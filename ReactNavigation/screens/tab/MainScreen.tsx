@@ -2,7 +2,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import {View} from 'react-native';
 import {RootTabParamList} from '../RootStack';
-import TabHomeScreen from './HomeScreen';
+import HomeScreen from './HomeScreen';
 import MessageScreen from './MessageScreen';
 import NotificationScreen from './NotificationScreen';
 import SearchScreen from './SearchScreen';
@@ -21,7 +21,7 @@ function MainScreen() {
       })}>
       <Tab.Screen
         name="Home"
-        component={TabHomeScreen}
+        component={HomeScreen}
         options={{
           title: '홈',
           tabBarIcon: ({color, size}) => (

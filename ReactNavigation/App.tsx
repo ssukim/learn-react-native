@@ -160,6 +160,7 @@ function App() {
         />
       </Tab.Navigator> */}
       {/* TabNavigator End */}
+
       {/* StackNavigator With TabNavigator Start */}
       <Stack.Navigator>
         <Stack.Screen

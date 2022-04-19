@@ -1,9 +1,17 @@
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {
+  CompositeNavigationProp,
+  RouteProp,
+  useRoute,
+} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
-import {RootStackParamList} from '../RootStack';
+import {RootStackParamList, RootTabParamList} from '../RootStack';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Detail'>;
+type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
 
 function DetailScreen({route, navigation}: Props) {
   useEffect(() => {
@@ -11,8 +19,15 @@ function DetailScreen({route, navigation}: Props) {
       title: `상세 정보 - ${route.params.id}`,
     });
   }, [navigation, route.params.id]);
+
+  function IDText() {
+    const hooksRoute = useRoute<DetailScreenRouteProp>();
+    return <Text style={styles.text}>id: {hooksRoute.params.id}</Text>;
+  }
+
   return (
     <View style={styles.block}>
+      <IDText />
       <Text style={styles.text}>id: {route.params?.id}</Text>
       <View style={styles.buttons}>
         <Button

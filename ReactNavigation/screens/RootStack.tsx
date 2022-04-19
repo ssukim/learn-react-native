@@ -1,3 +1,5 @@
+import {NavigatorScreenParams} from '@react-navigation/native';
+
 export type RootStackParamList = {
   Home: undefined;
   HeaderlessScreen: undefined;
@@ -15,5 +17,5 @@ export type RootTabParamList = {
   Message: undefined;
   Notification: undefined;
   Search: undefined;
-  Detail: {id: number};
+  Detail: NavigatorScreenParams<Pick<RootStackParamList, 'Detail'>>;
 };
