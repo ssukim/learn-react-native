@@ -3,11 +3,11 @@ import React from 'react';
 import MainTab from './MainTab';
 import WriteScreen from './WriteScreen';
 
-type Props = {
+export type RootStackProps = {
   MainTab: undefined;
   Write: undefined;
 };
-const Stack = createStackNavigator<Props>();
+const Stack = createStackNavigator<RootStackProps>();
 
 function RootStack() {
   return (
