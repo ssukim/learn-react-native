@@ -1,16 +1,16 @@
 import React, {createContext, useState} from 'react';
 import {v4 as uuidv4} from 'uuid';
 
-type LogsProps = {
-  id?: string;
+export type LogsProps = {
+  id: string;
   title: string;
   body: string;
-  date: string;
+  date: Date;
 };
 
 type ContextProps = {
   logs: LogsProps[];
-  onCreate: ({title, body, date}: LogsProps) => void;
+  onCreate: ({id, title, body, date}: LogsProps) => void;
 };
 
 const LogContext = createContext<ContextProps>({
@@ -22,13 +22,30 @@ type Props = {
   children: React.ReactNode;
 };
 export function LogContextProvider({children}: Props) {
-  const [logs, setLogs] = useState<LogsProps[]>([]);
+  const [logs, setLogs] = useState<LogsProps[]>([
+    {
+      id: uuidv4(),
+      title: 'Log 03',
+      body: 'Log 03',
+      date: new Date(),
+    },
+    {
+      id: uuidv4(),
+      title: 'Log 02',
+      body: 'Log 02',
+      date: new Date(Date.now() - 1000 * 60 * 3),
+    },
+    {
+      id: uuidv4(),
+      title: 'Log 01',
+      body: 'Log 01',
+      date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3),
+    },
+  ]);
 
-  const onCreate = ({title, body, date}: LogsProps) => {
-    const id = uuidv4();
-
+  const onCreate = ({id, title, body, date}: LogsProps) => {
     const log = {
-      id: id,
+      id,
       title,
       body,
       date,

@@ -1,26 +1,26 @@
 import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useContext, useState} from 'react';
 import {KeyboardAvoidingView, Platform, StyleSheet, View} from 'react-native';
 import WriteEditor from '../components/WriteEditor';
 import WriteHeader from '../components/WriteHeader';
 import LogContext from './contexts/LogContext';
-import {RootStackProps} from './RootStack';
+import {RootStackWriteNavigationProps} from './RootStack';
+import {v4 as uuidv4} from 'uuid';
 
-type NavigationProps = StackNavigationProp<RootStackProps, 'Write'>;
 function WriteScreen() {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
 
-  const navigation = useNavigation<NavigationProps>();
+  const navigation = useNavigation<RootStackWriteNavigationProps>();
 
   const {onCreate} = useContext(LogContext);
   const onSave = () => {
     onCreate({
+      id: uuidv4(),
       title,
       body,
       // 날짜를 문자열로 변환
-      date: new Date().toISOString(),
+      date: new Date(),
     });
     navigation.pop();
   };

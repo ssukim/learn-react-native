@@ -1,12 +1,27 @@
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack';
 import React from 'react';
 import MainTab from './MainTab';
 import WriteScreen from './WriteScreen';
 
+export type RootStackWriteNavigationProps = StackNavigationProp<
+  RootStackProps,
+  'Write'
+>;
 export type RootStackProps = {
   MainTab: undefined;
   Write: undefined;
+  FeedScreen: {
+    log: {
+      title: string;
+      body: string;
+      date: Date;
+    };
+  };
 };
+
 const Stack = createStackNavigator<RootStackProps>();
 
 function RootStack() {

@@ -1,16 +1,14 @@
 import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {RootStackProps} from '../screens/RootStack';
+import {RootStackWriteNavigationProps} from '../screens/RootStack';
 import TransparentCircleButton from './TransparentCircleButton';
 
-type NavigationProps = StackNavigationProp<RootStackProps, 'Write'>;
 type Props = {
   onSave: () => void;
 };
 function WriteHeader({onSave}: Props) {
-  const navigation = useNavigation<NavigationProps>();
+  const navigation = useNavigation<RootStackWriteNavigationProps>();
   const onGoBack = () => {
     navigation.pop();
   };
