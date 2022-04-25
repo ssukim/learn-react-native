@@ -22,26 +22,16 @@ type Props = {
   children: React.ReactNode;
 };
 export function LogContextProvider({children}: Props) {
-  const [logs, setLogs] = useState<LogsProps[]>([
-    {
-      id: uuidv4(),
-      title: 'Log 03',
-      body: 'Log 03',
-      date: new Date(),
-    },
-    {
-      id: uuidv4(),
-      title: 'Log 02',
-      body: 'Log 02',
-      date: new Date(Date.now() - 1000 * 60 * 3),
-    },
-    {
-      id: uuidv4(),
-      title: 'Log 01',
-      body: 'Log 01',
-      date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3),
-    },
-  ]);
+  const [logs, setLogs] = useState<LogsProps[]>(
+    Array.from({length: 10})
+      .map((_, index) => ({
+        id: uuidv4(),
+        title: `Log ${index}`,
+        body: `Log ${index}`,
+        date: new Date(),
+      }))
+      .reverse(),
+  );
 
   const onCreate = ({id, title, body, date}: LogsProps) => {
     const log = {
