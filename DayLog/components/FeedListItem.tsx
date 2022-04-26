@@ -3,6 +3,8 @@ import {Platform, Pressable, StyleSheet, Text} from 'react-native';
 import {formatDistanceToNow, format} from 'date-fns';
 import {ko} from 'date-fns/locale';
 import {LogsProps} from '../screens/contexts/LogContext';
+import {useNavigation} from '@react-navigation/native';
+import {RootStackWriteNavigationProps} from '../screens/RootStack';
 
 function formatDate(date: Date) {
   const d = new Date(date);
@@ -27,22 +29,28 @@ function truncate(text: string) {
   return replaced.slice(0, 100).concat('...');
 }
 
-export type FeedListItemProps = {
-  id: string;
-  log: {
-    title: string;
-    body: string;
-    date: Date;
+function FeedListItem({id, title, body, date}: LogsProps) {
+  const navigation = useNavigation<RootStackWriteNavigationProps>();
+
+  const onPress = () => {
+    navigation.navigate('Write', {
+      log: {
+        id,
+        title,
+        body,
+        date,
+      },
+    });
   };
-};
-function FeedListItem({title, body, date}: LogsProps) {
+
   return (
     <Pressable
       style={({pressed}) => [
         styles.block,
         Platform.OS === 'ios' && pressed && {backgroundColor: '#efefef'},
       ]}
-      android_ripple={{color: '#ededed'}}>
+      android_ripple={{color: '#ededed'}}
+      onPress={onPress}>
       <Text style={styles.date}>{formatDate(date)}</Text>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.body}>{truncate(body)}</Text>

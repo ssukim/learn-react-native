@@ -1,35 +1,83 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useContext, useState} from 'react';
-import {KeyboardAvoidingView, Platform, StyleSheet, View} from 'react-native';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  View,
+} from 'react-native';
 import WriteEditor from '../components/WriteEditor';
 import WriteHeader from '../components/WriteHeader';
 import LogContext from './contexts/LogContext';
-import {RootStackWriteNavigationProps} from './RootStack';
+import {
+  RootStackWriteNavigationProps,
+  RootStackWriteScreenProps,
+} from './RootStack';
 import {v4 as uuidv4} from 'uuid';
 
-function WriteScreen() {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
-
+function WriteScreen({route}: RootStackWriteScreenProps) {
   const navigation = useNavigation<RootStackWriteNavigationProps>();
 
-  const {onCreate} = useContext(LogContext);
+  const log = route.params?.log;
+
+  const [title, setTitle] = useState(log?.title ?? '');
+  const [body, setBody] = useState(log?.body ?? '');
+
+  const {onCreate, onModify, onRemove} = useContext(LogContext);
+
   const onSave = () => {
-    onCreate({
-      id: uuidv4(),
-      title,
-      body,
-      // 날짜를 문자열로 변환
-      date: new Date(),
-    });
+    if (log) {
+      onModify({
+        id: log.id,
+        date: log.date,
+        title,
+        body,
+      });
+    } else {
+      onCreate({
+        id: uuidv4(),
+        title,
+        body,
+        date: new Date(),
+      });
+    }
     navigation.pop();
   };
+
+  const onAskRemove = () => {
+    Alert.alert(
+      '삭제',
+      '정말로 삭제하시겠어요?',
+      [
+        {text: '취소', style: 'cancel'},
+        {
+          text: '삭제',
+          onPress: () => {
+            if (log?.id) {
+              onRemove({id: log.id});
+              navigation.pop();
+            }
+          },
+          style: 'destructive',
+        },
+      ],
+      {
+        cancelable: true,
+      },
+    );
+  };
+
   return (
     <View style={styles.block}>
       <KeyboardAvoidingView
         style={styles.avoidingView}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <WriteHeader onSave={onSave} />
+        <WriteHeader
+          onSave={onSave}
+          onAskRemove={onAskRemove}
+          isEditing={!!log}
+        />
         <WriteEditor
           title={title}
           body={body}
