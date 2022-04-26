@@ -1,0 +1,32 @@
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+
+const messages = {
+  NOT_FOUND: '검색 결과가 없습니다.',
+  EMPTY_KEYBOARD: '검색어를 입력하세요.',
+};
+
+type Props = {
+  type: 'NOT_FOUND' | 'EMPTY_KEYBOARD';
+};
+function EmptySearchResult({type}: Props) {
+  return (
+    <View style={styles.block}>
+      <Text style={styles.text}>{messages[type]}</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  block: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    color: '#9e9e9e',
+    fontSize: 16,
+  },
+});
+
+export default EmptySearchResult;
