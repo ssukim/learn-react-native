@@ -12,8 +12,9 @@ import FeedListItem from './FeedListItem';
 type Props = {
   logs: LogsProps[];
   onScrolledToBottom?: (isBottom: boolean) => void;
+  ListHeaderComponent?: React.ReactElement;
 };
-function FeedList({logs, onScrolledToBottom}: Props) {
+function FeedList({logs, onScrolledToBottom, ListHeaderComponent}: Props) {
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (!onScrolledToBottom) {
       return;
@@ -45,6 +46,7 @@ function FeedList({logs, onScrolledToBottom}: Props) {
       keyExtractor={log => log.id}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       onScroll={onScroll}
+      ListHeaderComponent={ListHeaderComponent}
     />
   );
 }
