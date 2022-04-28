@@ -1,6 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import {View} from 'react-native';
 import {RootTabParamList} from '../RootStack';
 import HomeScreen from './HomeScreen';
 import MessageScreen from './MessageScreen';

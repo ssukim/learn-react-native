@@ -1,14 +1,8 @@
-import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {
-  CompositeNavigationProp,
-  RouteProp,
-  useRoute,
-} from '@react-navigation/native';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
-import {RootStackParamList, RootTabParamList} from '../RootStack';
+import {RootStackParamList} from '../RootStack';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Detail'>;
 type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
