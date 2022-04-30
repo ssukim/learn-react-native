@@ -1,10 +1,39 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 import React from 'react';
+import SignInScreen from './SignInScreen';
 
-const Stack = createNativeStackNavigator();
+export type RootStackProps = {
+  SignIn: {
+    isSignUp?: boolean;
+  };
+};
+
+export type RootStackSignInNavigationProps = NativeStackNavigationProp<
+  RootStackProps,
+  'SignIn'
+>;
+
+export type RootStackSignInScreenProps = NativeStackScreenProps<
+  RootStackProps,
+  'SignIn'
+>;
+
+const Stack = createNativeStackNavigator<RootStackProps>();
 
 function RootStack() {
-  return <Stack.Navigator>{/* 화면 추가 예정 */}</Stack.Navigator>;
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="SignIn"
+        component={SignInScreen}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
 }
 
 export default RootStack;
