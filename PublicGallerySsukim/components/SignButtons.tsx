@@ -1,15 +1,16 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {RootStackSignInNavigationProps} from '../screens/RootStack';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {RootStackNavigationProps} from '../screens/RootStack';
 import CustomButton from './CustomButton';
 
 type Props = {
   isSignUp?: boolean;
+  loading?: boolean;
   onSubmit: () => void;
 };
-function SignButtons({isSignUp, onSubmit}: Props) {
-  const navigation = useNavigation<RootStackSignInNavigationProps>();
+function SignButtons({isSignUp, loading, onSubmit}: Props) {
+  const navigation = useNavigation<RootStackNavigationProps>();
 
   const primaryTitle = isSignUp ? '회원가입' : '로그인';
   const secondaryTitle = isSignUp ? '로그인' : '회원가입';
@@ -21,6 +22,14 @@ function SignButtons({isSignUp, onSubmit}: Props) {
       navigation.push('SignIn', {isSignUp: true});
     }
   };
+
+  if (loading) {
+    return (
+      <View style={styles.spinnerWrapper}>
+        <ActivityIndicator size={32} color="#6200ee" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.buttons}>
@@ -40,6 +49,12 @@ function SignButtons({isSignUp, onSubmit}: Props) {
 }
 
 const styles = StyleSheet.create({
+  spinnerWrapper: {
+    marginTop: 64,
+    height: 104,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   buttons: {
     marginTop: 64,
   },
