@@ -43,16 +43,22 @@ function SetupProfile() {
       const extension = asset?.fileName?.split('.').pop(); // 확장자 추출
       const reference = storage().ref(`/profile/${uid}.${extension}`);
 
-      if (Platform.OS === 'android') {
-        await reference.putString(asset?.base64 || '', 'base64', {
-          contentType: asset?.type,
-        });
-      } else {
-        await reference.putFile(asset?.uri || '');
+      try {
+        if (Platform.OS === 'android') {
+          await reference.putString(asset?.base64 || '', 'base64', {
+            contentType: asset?.type,
+          });
+        } else {
+          await reference.putFile(asset?.uri || '');
+        }
+        await reference.getDownloadURL();
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
       }
-
-      photoURL = response ? await reference.getDownloadURL() : null;
     }
+
     const user = {
       id: uid,
       displayName,
@@ -61,7 +67,6 @@ function SetupProfile() {
 
     createUser(user);
     setUser(user);
-    setLoading(false);
   };
 
   const onCancel = () => {

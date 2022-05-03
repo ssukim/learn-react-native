@@ -44,6 +44,7 @@ function SignInScreen({navigation, route}: RootStackSignInScreenProps) {
     try {
       const {user} = isSignUp ? await signUp(info) : await signIn(info);
       const profile = await getUser(user.uid);
+      setLoading(false);
       if (!profile) {
         navigation.navigate('Welcome', {uid: user.uid});
       } else {
@@ -60,7 +61,6 @@ function SignInScreen({navigation, route}: RootStackSignInScreenProps) {
       const msg =
         messages[error.code] || `${isSignUp ? '가입' : '로그인'} 실패`;
       Alert.alert('실패', msg);
-    } finally {
       setLoading(false);
     }
   };
