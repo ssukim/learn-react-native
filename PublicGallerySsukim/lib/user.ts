@@ -1,6 +1,8 @@
-import firestore from '@react-native-firebase/firestore';
+import firestore, {
+  FirebaseFirestoreTypes,
+} from '@react-native-firebase/firestore';
 
-type UserProps = {
+export type UserProps = {
   id: string;
   displayName: string;
   photoURL: string | null;
@@ -17,6 +19,15 @@ export function createUser({id, displayName, photoURL}: UserProps) {
 }
 
 export async function getUser(id: string) {
-  const doc = await userCollection.doc(id).get();
-  return doc.data();
+  const doc: FirebaseFirestoreTypes.DocumentData = await userCollection
+    .doc(id)
+    .get();
+
+  const res: UserProps = {
+    id: doc.data().id,
+    displayName: doc.data().displayName,
+    photoURL: doc.data().photoURL,
+  };
+
+  return res;
 }

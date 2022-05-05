@@ -1,11 +1,9 @@
-import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 import React, {createContext, useContext, useState} from 'react';
+import {UserProps} from '../lib/user';
 
 type ContextProps = {
-  user: FirebaseFirestoreTypes.DocumentData | null;
-  setUser: React.Dispatch<
-    React.SetStateAction<FirebaseFirestoreTypes.DocumentData | null>
-  >;
+  user: UserProps | null;
+  setUser: React.Dispatch<React.SetStateAction<UserProps | null>>;
 };
 
 const UserContext = createContext<ContextProps>({
@@ -17,9 +15,7 @@ type Props = {
   children: React.ReactNode;
 };
 export function UserContextProvider({children}: Props) {
-  const [user, setUser] = useState<FirebaseFirestoreTypes.DocumentData | null>(
-    null,
-  );
+  const [user, setUser] = useState<UserProps | null>(null);
   return (
     <UserContext.Provider
       children={children}

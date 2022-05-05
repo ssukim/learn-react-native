@@ -42,6 +42,7 @@ function UploadScreen() {
         await reference.putFile(asset.uri || '');
       }
       const photoURL = await reference.getDownloadURL();
+
       await createPost({description, photoURL, user});
     }
   }, [res, navigation, user, description]);
