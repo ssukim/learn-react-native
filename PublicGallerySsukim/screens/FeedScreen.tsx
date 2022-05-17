@@ -22,7 +22,7 @@ function FeedScreen() {
 
   useEffect(() => {
     // 컴포넌트가 처음 마운트될 때 포스트 목록을 조회한 후 'posts' 상태에 담기
-    getPosts().then(res => setPosts(res));
+    getPosts({}).then(res => setPosts(res));
   }, []);
 
   const onLoadMore = async () => {
@@ -73,7 +73,7 @@ function FeedScreen() {
 
 const renderItem = ({item}: FirebaseFirestoreTypes.DocumentData) => (
   <PostCard
-    createAt={item.createAt}
+    createdAt={item.createdAt}
     description={item.description}
     id={item.id}
     user={item.user}

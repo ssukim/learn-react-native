@@ -2,7 +2,6 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {
   ActivityIndicator,
-  Image,
   Platform,
   Pressable,
   StyleSheet,
@@ -22,6 +21,7 @@ import {
   RootStackWelcomeRouteProps,
 } from './RootStack';
 import storage from '@react-native-firebase/storage';
+import Avatar from '../components/Avartar';
 
 function SetupProfile() {
   const [displayName, setDisplayName] = useState('');
@@ -95,15 +95,9 @@ function SetupProfile() {
   return (
     <View style={styles.block}>
       <Pressable style={styles.circle} onPress={onSelectImage}>
-        <Image
-          style={styles.circle}
-          source={
-            response
-              ? {
-                  uri: response?.assets && response?.assets[0]?.uri,
-                }
-              : require('../assets/user.png')
-          }
+        <Avatar
+          source={response?.assets ? {uri: response?.assets[0]?.uri} : null}
+          size={128}
         />
       </Pressable>
       <View style={styles.form}>

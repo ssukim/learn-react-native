@@ -1,8 +1,8 @@
 import React from 'react';
-import {Image, ImageStyle} from 'react-native';
+import {Image, ImageSourcePropType, ImageStyle} from 'react-native';
 
 type Props = {
-  source: string;
+  source?: ImageSourcePropType | null;
   size?: number;
   style?: ImageStyle;
 };

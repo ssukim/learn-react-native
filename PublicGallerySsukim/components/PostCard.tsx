@@ -1,26 +1,33 @@
-import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
+import {useNavigation} from '@react-navigation/native';
 import React, {useMemo} from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {UserProps} from '../lib/user';
+import {HomeStackNavigationProps} from '../screens/HomeStack';
 import Avatar from './Avartar';
 
 type Props = {
-  user: FirebaseFirestoreTypes.DocumentData;
+  user: UserProps;
   photoURL: string;
   description: string;
-  createAt: {
+  createdAt: {
     seconds: number;
     nanoseconds: number;
   };
   id: string;
 };
-function PostCard({user, photoURL, description, createAt, id}: Props) {
+function PostCard({user, photoURL, description, createdAt}: Props) {
+  const navigation = useNavigation<HomeStackNavigationProps>();
+
   const date = useMemo(
-    () => (createAt ? new Date(createAt.seconds * 1000) : new Date()),
-    [createAt],
+    () => (createdAt ? new Date(createdAt.seconds * 1000) : new Date()),
+    [createdAt],
   );
 
   const onOpenProfile = () => {
-    // TODO: 사용자 프로파일 화면 열기
+    navigation.navigate('Profile', {
+      userId: user.id,
+      displayName: user.displayName,
+    });
   };
 
   return (
