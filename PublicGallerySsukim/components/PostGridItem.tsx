@@ -1,6 +1,8 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Image, Pressable, StyleSheet, useWindowDimensions} from 'react-native';
 import {PostProps} from '../lib/posts';
+import {HomeStackNavigationProps} from '../screens/HomeStack';
 
 type Props = {
   post: PostProps;
@@ -8,9 +10,10 @@ type Props = {
 function PostGridItem({post}: Props) {
   const dimensions = useWindowDimensions();
   const size = (dimensions.width - 3) / 3;
+  const navigation = useNavigation<HomeStackNavigationProps>();
 
   const onPress = () => {
-    // TODO: 단일 포스트 조회 화면 띄우기
+    navigation.navigate('Post', {post});
   };
 
   return (

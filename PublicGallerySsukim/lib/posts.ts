@@ -7,10 +7,10 @@ const postCollection = firestore().collection('posts');
 
 export type PostProps = {
   id: string;
-  user: UserProps | null;
+  user: UserProps;
   photoURL: string;
   description: string;
-  createdAt?: {
+  createdAt: {
     seconds: number;
     nanoseconds: number;
   };

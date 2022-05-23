@@ -1,13 +1,14 @@
-import React, {useEffect} from 'react';
-import {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  RefreshControl,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import {getPosts, PostProps} from '../lib/posts';
+import usePosts from '../hooks/usePosts';
+import {PostProps} from '../lib/posts';
 import {getUser, UserProps} from '../lib/user';
 import Avatar from './Avartar';
 import PostGridItem from './PostGridItem';
@@ -17,11 +18,10 @@ type Props = {
 };
 function Profile({userId}: Props) {
   const [user, setUser] = useState<UserProps>();
-  const [posts, setPosts] = useState<PostProps[]>();
+  const {posts, noMorePost, refreashing, onLoadMore, onRefresh} = usePosts();
 
   useEffect(() => {
     getUser(userId).then(setUser);
-    getPosts({userId}).then(setPosts);
   }, [userId]);
 
   if (!user || !posts) {
@@ -45,6 +45,16 @@ function Profile({userId}: Props) {
           />
           <Text style={styles.username}>{user.displayName}</Text>
         </View>
+      }
+      onEndReached={onLoadMore}
+      onEndReachedThreshold={0.25}
+      ListFooterComponent={
+        !noMorePost ? (
+          <ActivityIndicator style={styles.spinner} size={32} color="#6200ee" />
+        ) : null
+      }
+      refreshControl={
+        <RefreshControl onRefresh={onRefresh} refreshing={refreashing} />
       }
     />
   );
