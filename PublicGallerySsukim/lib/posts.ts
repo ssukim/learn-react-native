@@ -79,7 +79,7 @@ export function removePost(id: string) {
   return postCollection.doc(id).delete();
 }
 
-type UpdatePostProps = {
+export type UpdatePostProps = {
   id: string;
   description: string;
 };

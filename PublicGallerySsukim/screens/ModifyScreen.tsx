@@ -7,6 +7,7 @@ import {
   TextInput,
 } from 'react-native';
 import IconRightButton from '../components/IconRightButton';
+import events from '../lib/event';
 import {updatePost} from '../lib/posts';
 import {RootStackModifyRouteProps, RootStackNavigationProps} from './RootStack';
 
@@ -22,7 +23,10 @@ function ModifyScreen() {
       id: params.id,
       description,
     });
-    // TODO: 포스트 및 포스트 목록 업데이트
+    events.emit('updatePost', {
+      postId: params.id,
+      description,
+    });
     navigation.pop();
   }, [navigation, params.id, description]);
 

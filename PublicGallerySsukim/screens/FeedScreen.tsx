@@ -11,7 +11,6 @@ import usePosts from '../hooks/usePosts';
 
 function FeedScreen() {
   const {posts, noMorePost, refreashing, onLoadMore, onRefresh} = usePosts();
-
   return (
     <FlatList
       data={posts}
