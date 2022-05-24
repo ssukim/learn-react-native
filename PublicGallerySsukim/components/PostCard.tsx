@@ -1,8 +1,13 @@
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useNavigationState} from '@react-navigation/native';
 import React, {useMemo} from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {useUserContext} from '../contexts/UserContext';
+import usePostActions from '../hooks/usePostActions';
 import {UserProps} from '../lib/user';
 import {HomeStackNavigationProps} from '../screens/HomeStack';
+import {MyProfileStackNavigationProps} from '../screens/MyProfileStack';
+import ActionSheetModal from './ActionSheetModal';
 import Avatar from './Avartar';
 
 type Props = {
@@ -15,20 +20,36 @@ type Props = {
   };
   id: string;
 };
-function PostCard({user, photoURL, description, createdAt}: Props) {
-  const navigation = useNavigation<HomeStackNavigationProps>();
+function PostCard({user, photoURL, description, createdAt, id}: Props) {
+  const routeNames = useNavigationState(state => state.routeNames);
+
+  const homeNavigation = useNavigation<HomeStackNavigationProps>();
+  const myProfileNavigation = useNavigation<MyProfileStackNavigationProps>();
 
   const date = useMemo(
     () => (createdAt ? new Date(createdAt.seconds * 1000) : new Date()),
     [createdAt],
   );
 
+  const {user: me} = useUserContext();
+  const isMyPost = me?.id === user.id;
+
   const onOpenProfile = () => {
-    navigation.navigate('Profile', {
-      userId: user.id,
-      displayName: user.displayName,
-    });
+    // MyProfile이 존재하는지 확인
+    if (routeNames.find(routeName => routeName === 'MyProfile')) {
+      myProfileNavigation.navigate('MyProfile');
+    } else {
+      homeNavigation.navigate('Profile', {
+        userId: user.id,
+        displayName: user.displayName,
+      });
+    }
   };
+
+  const {isSelecting, onPressMore, onClose, actions} = usePostActions({
+    id,
+    description,
+  });
 
   return (
     <View style={styles.block}>
@@ -43,6 +64,11 @@ function PostCard({user, photoURL, description, createdAt}: Props) {
           />
           <Text>{user.displayName}</Text>
         </Pressable>
+        {isMyPost && (
+          <Pressable hitSlop={8} onPress={onPressMore}>
+            <Icon name="more-vert" size={20} />
+          </Pressable>
+        )}
       </View>
       <Image
         source={{uri: photoURL}}
@@ -54,6 +80,12 @@ function PostCard({user, photoURL, description, createdAt}: Props) {
         <Text style={styles.description}>{description}</Text>
         <Text style={styles.date}>{date.toLocaleString()}</Text>
       </View>
+      {/* for android */}
+      <ActionSheetModal
+        visible={isSelecting}
+        actions={actions}
+        onClose={onClose}
+      />
     </View>
   );
 }

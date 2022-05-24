@@ -11,6 +11,7 @@ import {useUserContext} from '../contexts/UserContext';
 import {subscribeAuth} from '../lib/auth';
 import {getUser} from '../lib/user';
 import MainTab from './MainTab';
+import ModifyScreen from './ModifyScreen';
 import SignInScreen from './SignInScreen';
 import UploadScreen from './UploadScreen';
 import WelcomeScreen from './WelcomeScreen';
@@ -25,6 +26,10 @@ export type RootStackProps = {
   MainTab: undefined;
   Upload: {
     res: ImagePickerResponse;
+  };
+  Modify: {
+    id: string;
+    description: string;
   };
 };
 
@@ -43,6 +48,7 @@ export type RootStackWelcomeScreenProps = NativeStackScreenProps<
 
 export type RootStackWelcomeRouteProps = RouteProp<RootStackProps, 'Welcome'>;
 export type RootStackUploadRouteProps = RouteProp<RootStackProps, 'Upload'>;
+export type RootStackModifyRouteProps = RouteProp<RootStackProps, 'Modify'>;
 
 const Stack = createNativeStackNavigator<RootStackProps>();
 
@@ -81,6 +87,11 @@ function RootStack() {
             name="Upload"
             component={UploadScreen}
             options={{title: '새 게시물', headerBackTitle: '뒤로가기'}}
+          />
+          <Stack.Screen
+            name="Modify"
+            component={ModifyScreen}
+            options={{title: '설명 수정', headerBackTitle: '뒤로가기'}}
           />
         </>
       ) : (

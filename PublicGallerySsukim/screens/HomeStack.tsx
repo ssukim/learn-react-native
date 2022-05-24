@@ -32,7 +32,11 @@ function HomeStack() {
     <Stack.Navigator>
       <Stack.Screen name="Feed" component={FeedScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="Post" component={PostScreen} />
+      <Stack.Screen
+        name="Post"
+        component={PostScreen}
+        options={{title: '게시물'}}
+      />
     </Stack.Navigator>
   );
 }

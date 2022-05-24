@@ -74,3 +74,17 @@ export async function getNewerPosts(id: string, userId?: string) {
     userId,
   });
 }
+
+export function removePost(id: string) {
+  return postCollection.doc(id).delete();
+}
+
+type UpdatePostProps = {
+  id: string;
+  description: string;
+};
+export function updatePost({id, description}: UpdatePostProps) {
+  return postCollection.doc(id).update({
+    description,
+  });
+}
