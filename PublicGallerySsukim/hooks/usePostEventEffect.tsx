@@ -5,7 +5,7 @@ import {UpdatePostProps} from '../lib/posts';
 type Props = {
   refresh: () => void;
   removePost: (postId: string) => void;
-  updatePost: ({id: postId, description}: UpdatePostProps) => void;
+  updatePost: ({id, description}: UpdatePostProps) => void;
   enabled: boolean;
 };
 export default function usePostsEventEffect({

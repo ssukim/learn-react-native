@@ -19,15 +19,19 @@ export function createUser({id, displayName, photoURL}: UserProps) {
 }
 
 export async function getUser(id: string) {
-  const doc: FirebaseFirestoreTypes.DocumentData = await userCollection
-    .doc(id)
-    .get();
+  try {
+    const doc: FirebaseFirestoreTypes.DocumentData = await userCollection
+      .doc(id)
+      .get();
 
-  const res: UserProps = {
-    id: doc.data().id,
-    displayName: doc.data().displayName,
-    photoURL: doc.data().photoURL,
-  };
+    const res: UserProps = {
+      id: doc.data().id,
+      displayName: doc.data().displayName,
+      photoURL: doc.data().photoURL,
+    };
 
-  return res;
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 }

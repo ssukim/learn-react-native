@@ -24,7 +24,7 @@ function ModifyScreen() {
       description,
     });
     events.emit('updatePost', {
-      postId: params.id,
+      id: params.id,
       description,
     });
     navigation.pop();

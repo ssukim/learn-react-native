@@ -72,8 +72,8 @@ export default function usePosts(userId?: string) {
   usePostsEventEffect({
     refresh: onRefresh,
     removePost,
-    enabled: !userId || userId === user?.id,
     updatePost,
+    enabled: !userId || userId === user?.id,
   });
 
   return {

@@ -12,6 +12,7 @@ import {subscribeAuth} from '../lib/auth';
 import {getUser} from '../lib/user';
 import MainTab from './MainTab';
 import ModifyScreen from './ModifyScreen';
+import SettingScreen from './SettingScreen';
 import SignInScreen from './SignInScreen';
 import UploadScreen from './UploadScreen';
 import WelcomeScreen from './WelcomeScreen';
@@ -31,6 +32,7 @@ export type RootStackProps = {
     id: string;
     description: string;
   };
+  Setting: undefined;
 };
 
 export type RootStackNavigationProps =
@@ -92,6 +94,11 @@ function RootStack() {
             name="Modify"
             component={ModifyScreen}
             options={{title: '설명 수정', headerBackTitle: '뒤로가기'}}
+          />
+          <Stack.Screen
+            name="Setting"
+            component={SettingScreen}
+            options={{title: '설정', headerBackTitle: '뒤로가기'}}
           />
         </>
       ) : (
