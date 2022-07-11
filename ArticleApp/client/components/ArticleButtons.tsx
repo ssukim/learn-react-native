@@ -6,8 +6,6 @@ import AskDialog from './AskDialog';
 import {InfiniteData, useMutation, useQueryClient} from 'react-query';
 import {deleteArticle} from '../api/articles';
 import {Article} from '../api/type';
-// import {deleteArticle} from '../api/articles';
-// import {Article} from '../api/types';
 
 export interface ArticleActionButtonsProps {
   articleId: number;
