@@ -3,9 +3,10 @@ import DateHead from './components/DateHead';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import AddTodo from './components/AddTodo';
 import Empty from './components/Empty';
-import {KeyboardAvoidingView, StyleSheet, Platform} from 'react-native';
+import {KeyboardAvoidingView, StyleSheet, Platform, Button} from 'react-native';
 import TodoList, {TodoListProps} from './components/TodoList';
 import todosStorage from './storages/todosStorage';
+import ToastModule from './components/Toast';
 
 const App = () => {
   const today = new Date();
@@ -52,6 +53,11 @@ const App = () => {
     });
   };
 
+  const onPress = () => {
+    ToastModule.show('Hellow World', ToastModule.SHORT);
+    // ToastModule.show('Hellow World2', ToastModule.LONG);
+  };
+
   // // 불러오기
   useEffect(() => {
     todosStorage.get().then(setTodos).catch(console.error);
@@ -79,6 +85,7 @@ const App = () => {
             />
           )}
           <AddTodo onInsert={text => onInsert(text)} />
+          <Button title="Press me" onPress={onPress} />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </SafeAreaProvider>
