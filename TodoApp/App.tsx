@@ -3,10 +3,18 @@ import DateHead from './components/DateHead';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import AddTodo from './components/AddTodo';
 import Empty from './components/Empty';
-import {KeyboardAvoidingView, StyleSheet, Platform, Button} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  StyleSheet,
+  Platform,
+  Button,
+  View,
+  Text,
+} from 'react-native';
 import TodoList, {TodoListProps} from './components/TodoList';
 import todosStorage from './storages/todosStorage';
 import ToastModule from './components/Toast';
+import {getBrightness, setBrightness} from './components/Brightness';
 
 const App = () => {
   const today = new Date();
@@ -68,10 +76,26 @@ const App = () => {
     todosStorage.set(locTodos).catch(console.error);
   }, [locTodos]);
 
+  /**
+   * Kotlin Brightness 관련 로직
+   */
+  const [value, setValue] = useState(-1);
+  const onPressBrightness = async () => {
+    const brightness = await getBrightness();
+    setValue(brightness);
+  };
+
+  const onPressLow = () => {
+    setBrightness(0.25);
+  };
+  const onPressHigh = () => {
+    setBrightness(1);
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView edges={['bottom']} style={styles.block}>
-        <KeyboardAvoidingView
+        {/* <KeyboardAvoidingView
           behavior={Platform.select({ios: 'padding', android: undefined})}
           style={styles.avoid}>
           <DateHead date={today} />
@@ -86,7 +110,16 @@ const App = () => {
           )}
           <AddTodo onInsert={text => onInsert(text)} />
           <Button title="Press me" onPress={onPress} />
-        </KeyboardAvoidingView>
+        </KeyboardAvoidingView> */}
+        {/* Kotlin Brightness 관련 로직 */}
+        <>
+          <Button title="Update Brightness" onPress={onPressBrightness} />
+          <View style={styles.textWrapper}>
+            <Text style={styles.text}>{value}</Text>
+          </View>
+          <Button title="Low Brightness" onPress={onPressLow} />
+          <Button title="High Brightness" onPress={onPressHigh} />
+        </>
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -99,6 +132,14 @@ const styles = StyleSheet.create({
   },
   avoid: {
     flex: 1,
+  },
+  textWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  text: {
+    fontSize: 64,
   },
 });
 export default App;

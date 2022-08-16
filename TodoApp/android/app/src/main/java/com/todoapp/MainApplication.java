@@ -2,6 +2,8 @@ package com.todoapp;
 
 import android.app.Application;
 import android.content.Context;
+
+import com.ebest.api.SocketManager;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -11,8 +13,8 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public class MainApplication extends Application implements ReactApplication {
 
+public class MainApplication extends Application implements ReactApplication {
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
         @Override
@@ -25,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
           packages.add(new ToastPackage());
+          packages.add(new BrightnessPackage());
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           return packages;
@@ -36,6 +39,12 @@ public class MainApplication extends Application implements ReactApplication {
         }
       };
 
+    private SocketManager sock = new SocketManager();
+
+    public SocketManager getSockInstance() {
+        return sock;
+    }
+
   @Override
   public ReactNativeHost getReactNativeHost() {
     return mReactNativeHost;
@@ -46,6 +55,7 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    sock.init(this, getApplicationContext());
   }
 
   /**
